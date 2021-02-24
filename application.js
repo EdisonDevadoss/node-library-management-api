@@ -2,6 +2,7 @@ const fastify = require('fastify');
 const fastifyCors = require('fastify-cors');
 
 const app = fastify();
+const bookRoutes = require('./app/routes/book.routes');
 
 function build() {
   app.register(fastifyCors, {
@@ -10,9 +11,10 @@ function build() {
     preflightContinue: false,
     optionsSuccessStatus: 204
   });
- app.get('/', (req, res)=>{
-  res.send({hello: 'world'});
-});
-return app; 
+  app.get('/', (req, res) => {
+    res.send({ hello: 'world' });
+  });
+  app.register(bookRoutes, { prefix: '/v1' });
+  return app;
 }
 module.exports = build;
